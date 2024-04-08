@@ -1,0 +1,170 @@
+/*Responsividade*/
+
+@media screen and (max-width: 576px) {
+    .login {
+        width: 90% !important;
+    }
+
+    .content main {
+        padding: 10px 10px !important;
+    }
+
+    .content nav form .title-page-header {
+        padding: 10px 10px !important;
+        font-size: 10px;
+    }
+
+
+    .form-content {
+        width: 100% !important;
+    }
+
+    .content nav form .form-input input {
+        display: none;
+    }
+
+    .content nav form .form-input button {
+        width: auto;
+        height: auto;
+        background: transparent;
+        color: var(--dark);
+        border-radius: none;
+    }
+
+    .content nav form.show .form-input input {
+        display: block;
+        width: 100%;
+    }
+
+    .content nav form.show .form-input button {
+        width: 36px;
+        height: 100%;
+        color: var(--light);
+        background: var(--danger);
+        border-radius: 0 36px 36px 0;
+    }
+
+    .content nav form.show~.notif,
+    .content nav form.show~.profile {
+        display: none;
+    }
+
+    .content main .insights {
+        grid-template-columns: 1fr;
+    }
+
+    .content main .bottom-data .header {
+        min-width: 450px;
+    }
+
+    .content main .bottom-data .orders table {
+        min-width: 450px;
+    }
+
+    .content main .bottom-data .reminders .task-list {
+        min-width: 450px;
+    }
+
+    .content main .header .left h1 {
+        font-size: 20px;
+    }
+
+    .content main .header h3 {
+        font-size: 18px !important;
+    }
+
+    .button .text {
+        display: none;
+    }
+
+    td {
+        font-size: 12px !important;
+    }
+}
+
+
+@media screen and (max-width: 768px) {
+    .sidebar {
+        width: 200px;
+    }
+
+    .sidebar .logo {
+        font-size: 12px;
+    }
+
+    .sidebar .logo .bx {
+        font-size: 1.5rem;
+    }
+
+    .content {
+        width: calc(100% - 60px);
+        left: 200px;
+    }
+
+    .button .text {
+        display: none;
+    }
+
+    .login {
+        width: 60% !important;
+    }
+}
+
+
+@media screen and (max-width: 992px) {
+    .button .text {
+        display: none;
+    }
+
+    .td-option {
+        flex-wrap: nowrap;
+    }
+
+    .login {
+        width: 50% !important;
+    }
+
+
+}
+
+
+@media screen and (max-width: 1200px) {
+    .content main .bottom-data .orders {
+        flex-grow: 1;
+        flex-basis: 500px;
+    }
+
+    .content main .bottom-data .reminders {
+        flex-grow: 1;
+        flex-basis: 700px;
+    }
+}
+
+
+@media screen and (max-width: 1400px) {
+    h3 {
+        font-size: 15px !important;
+    }
+
+    .login {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        translate: -50% -50%;
+        width: 30%;
+        padding: 17px 52px 53px !important;
+        border-radius: 1.25rem;
+        background: var(--light);
+        text-align: center;
+    }
+
+    .content main .bottom-data .orders {
+        flex-grow: 1;
+        flex-basis: 500px;
+    }
+
+    .content main .bottom-data .reminders {
+        flex-grow: 1;
+        flex-basis: 700px;
+    }
+}
