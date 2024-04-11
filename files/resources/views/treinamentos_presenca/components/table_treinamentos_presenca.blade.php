@@ -10,7 +10,7 @@
   <div class="header">
       <div class="sub-header">
           <i class='bx bx-message-square-check'></i>
-          <h3>{{ $id }} : {{ $treinamento->m_treinamento_descricao}}</h3>
+          <h3>{{ $treinamento->id }} : {{ $treinamento->m_treinamento_descricao}}</h3>
       </div>
   </div>
   {{-- <div class="header">
@@ -37,7 +37,7 @@
         <tbody>
             <form id="formCheckboxes" method="POST" action="{{ route('treinamento_presenca.update') }}">
                 @csrf
-                <input type="hidden" name="id" value="{{ $id }}">
+                <input type="hidden" name="id" value="{{ $treinamento->id }}">
                 @foreach ($array as $dados)
                     <tr class="alterar-switch select-none">
                         <td>{{ $dados['colaborador_nome'] }}</td>

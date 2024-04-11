@@ -1,3 +1,4 @@
+<meta name="csrf-token" content="{{ csrf_token() }}">
 <script>
     var check
 </script>
@@ -22,11 +23,54 @@
             <h3>{{ __('Conducted trainings') }}</h3>
         </div>
         <div class="sub-header">
-            <span>Filtrar ativos</span>
-            <div class="botao-switch">
-                <input type="checkbox" id="checkboxFiltro" checked>
-                <label for="checkboxFiltro"></label>
-            </div>
+
+            <form action="{{ route('treinamentos.index') }}" method="POST">
+                @csrf
+                @if ($valor === "false")
+                    <button class="button button-transparent" name="valor" value="true">MOSTRAR ATIVOS</button>
+                @else
+                    <button class="button button-transparent" name="valor" value="false">MOSTRAR TODOS</button>
+                @endif
+            </form>
+
+
+
+
+            {{-- <form action="{{ route('treinamentos.filtro')}}" method="post">
+                @csrf
+                <input type="checkbox" name="botao-ativo" >
+                <button value="true" name="botao-ativo">teste</button>
+            </form> --}}
+
+
+            {{-- <form id="filtroForm" action="{{ route('treinamentos.filtro') }}" method="POST">
+                @csrf
+                <div class="botao-switch">
+                    <span>Filtrar ativos</span>
+                    <input type="checkbox" id="checkboxFiltro" name="checkboxFiltro" value="false" checked>
+                    <label for="checkboxFiltro"></label>    
+                </div>
+            </form> --}}
+
+
+
+            {{-- <button value="true" name="botao-ativo">DESATIVAR FILTRO</button> --}}
+
+
+
+
+
+            {{-- <div class="botao-switch">
+                <input type="checkbox" name="filtro-ativo" id="filtro">
+                <label for="filtro"></label>
+            </div> --}}
+            
+            
+            
+
+
+
+
             <div class="clearable-input">
                 <input class="form-input filtro-nome-treinamentos" type="text" placeholder="Filtrar por nome">
                 <span class="clear-icon">&#10006;</span>
@@ -48,9 +92,9 @@
                 <th class="sortable sortable-treinamentos">Ativo</th>
             </tr>
         </thead>
-        <tbody id="sem-filtro">
+        <tbody>
             @foreach ($treinamentos->sortByDesc('id') as $treinamento)
-                <tr>
+                <tr> 
                     <td>{{ $treinamento->id }}</td>
                     <td>{{ $treinamento->MatrizTreinamento->m_treinamento_descricao }}</td>
                     <td>{{ $treinamento->professor->professor_nome }}</td>
@@ -75,15 +119,8 @@
                                     <span class="text">{{ __('Activate') }}</span>
                                 </button>
                             @endif
-
                         </form>
-                        {{-- <button class="button button-transparent"
-                            onclick="window.location.href ='{{ route('lista_presenca.index', $treinamento->id) }}'">
-                            <i class='bx bx-message-square-check'></i>
-                            <span class="text">Lista Presença</span>
-                        </button> --}}
-                        <button class="button button-transparent" onclick="imprimirLista({{ $treinamento->id }},'{{ $treinamento->MatrizTreinamento->m_treinamento_descricao }}','{{ \Carbon\Carbon::parse($treinamento->treinamento_data)->format('d/m/Y') }}','{{ $treinamento->professor->professor_nome }}',
-                        '{{ $treinamento->treinamento_carga_horaria }}')">
+                        <button class="button button-transparent" onclick="imprimirLista({{ $treinamento->id }},'{{ $treinamento->MatrizTreinamento->m_treinamento_descricao }}','{{ \Carbon\Carbon::parse($treinamento->treinamento_data)->format('d/m/Y') }}','{{ $treinamento->professor->professor_nome }}','{{ $treinamento->treinamento_carga_horaria }}')">
                             <i class='bx bx-printer'></i>
                             <span class="text">Imprimir</span>
                         </button>
@@ -100,60 +137,6 @@
                 <td colspan="5" style="width: 100%; text-align: center;">Nenhum registro encontrado.</td>
             </tr>
         </tbody>
-
-        <tbody id="com-filtro">
-            @foreach ($treinamentos_filtro->sortByDesc('id') as $treinamento)
-            <tr>
-                <td>{{ $treinamento->id }}</td>
-                <td>{{ $treinamento->MatrizTreinamento->m_treinamento_descricao }}</td>
-                <td>{{ $treinamento->professor->professor_nome }}</td>
-                <td>{{ \Carbon\Carbon::parse($treinamento->treinamento_data)->format('d/m/Y') }}</td>
-                <td>{{ $treinamento->treinamento_carga_horaria }}</td>
-                <td>{{ $treinamento->treinamento_ativo }}</td>
-                <td class="td-option">
-                    <button class="button button-transparent"
-                        onclick="window.location.href ='{{ route('treinamentos.show', $treinamento->id) }}'">
-                        <i class='bx bx-edit-alt'></i><span class="text">{{ __('Update') }}</span></button>
-                    <form
-                        action="{{ route('treinamentos.destroy', ['id' => $treinamento->id, 'treinamento_ativo' => $treinamento->treinamento_ativo]) }}"
-                        method="POST">
-                        @csrf
-                        @method('delete')
-                        @if ($treinamento->treinamento_ativo === 'SIM')
-                            <button type="submit" class="mt-2 button button-transparent hover-danger">
-                                <i class='bx bx-x'></i><span class="text">{{ __('Disable') }}</span></button>
-                        @else
-                            <button type="submit" class="button button-transparent">
-                                <i class="bx bx-check"></i>
-                                <span class="text">{{ __('Activate') }}</span>
-                            </button>
-                        @endif
-
-                    </form>
-                    {{-- <button class="button button-transparent"
-                        onclick="window.location.href ='{{ route('lista_presenca.index', $treinamento->id) }}'">
-                        <i class='bx bx-message-square-check'></i>
-                        <span class="text">Lista Presença</span>
-                    </button> --}}
-                    <button class="button button-transparent" onclick="imprimirLista({{ $treinamento->id }},'{{ $treinamento->MatrizTreinamento->m_treinamento_descricao }}','{{ \Carbon\Carbon::parse($treinamento->treinamento_data)->format('d/m/Y') }}','{{ $treinamento->professor->professor_nome }}',
-                    '{{ $treinamento->treinamento_carga_horaria }}')">
-                        <i class='bx bx-printer'></i>
-                        <span class="text">Imprimir</span>
-                    </button>
-
-                    <button class="button button-transparent"
-                    onclick="window.location.href ='{{ route('treinamento_presenca.index', $treinamento->id) }}'">
-                        <i class="bx bx-clipboard"></i>
-                        <span class="text">Presença</span>
-                    </button>
-                </td>
-            </tr>
-        @endforeach
-        <tr class="sem-registro-treinamentos" style="display: none;">
-            <td colspan="5" style="width: 100%; text-align: center;">Nenhum registro encontrado.</td>
-        </tr>
-        </tbody>
-
     </table>
 
 
@@ -380,23 +363,35 @@
             realizarOrdenacao(colIndex, order);
         });
 
-        function verificarCheckbox() {
-            var isChecked = $('#checkboxFiltro').is(':checked');
-            if (isChecked) {
-                $('#sem-filtro').hide();
-                $('#com-filtro').show();
-            } else {
-                $('#sem-filtro').show();
-                $('#com-filtro').hide();
-            }
-        }
+        // function verificarCheckbox() {
+        //     var isChecked = $('#filtro').is(':checked');
+        //     var csrfToken = $('meta[name="csrf-token"]').attr('content');
 
-        // Chama a função ao carregar a página para verificar o estado do checkbox
-        verificarCheckbox();
+        //     console.log(isChecked);
 
-        // Adiciona um listener de evento para o change do checkbox
-        $('#checkboxFiltro').change(function() {
-            verificarCheckbox(); // Chama a função para verificar o estado do checkbox
-        });
+
+        // $('.botao-switch').change(function() {
+        //     var isChecked = $(this).is(':checked');
+
+        //     console.log(isChecked);
+
+        //     $.ajax({
+        //         url: '{{ route("treinamentos.filtro") }}',
+        //         type: 'POST',
+        //         data: {
+        //             isChecked: isChecked,
+        //             _token: '{{ csrf_token() }}'
+        //         }
+        //         success: function(response) {
+        //             console.log(response);
+        //         }
+        //     })
+        // })
+
+        $('#checkboxFiltro').click(function() {
+            var checkbox = $('#checkboxFiltro').val();
+            console.log(checkbox);
+        })
+
     });
 </script>

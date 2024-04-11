@@ -105,8 +105,9 @@ Route::middleware('auth')->group(function () { // Rotas que requerem autenticaç
     Route::get('/treinamentos/{id}/edit', [TreinamentoController::class, 'edit'])->name('treinamentos.edit');
     Route::get('/treinamentos/{id}', [TreinamentoController::class, 'show'])->name('treinamentos.show');
     Route::get('/treinamentos/edit', [TreinamentoController::class, 'edit'])->name('treinamentos.edit');
-    Route::get('/treinamentos', [TreinamentoController::class, 'index'])->name('treinamentos.index');
-    Route::post('/treinamentos', [TreinamentoController::class, 'store'])->name('treinamentos.store');
+    Route::match(['GET','POST'], '/treinamentos', [TreinamentoController::class, 'index'])->name('treinamentos.index');
+    Route::post('/treinamentos-store', [TreinamentoController::class, 'store'])->name('treinamentos.store');
+    Route::match(['POST','GET'], '/filtro-desativado', [TreinamentoController::class, 'filtro'])->name('treinamentos.filtro');
 
     //Rotas Lista de pressença
     Route::get('/buscar-lista-presenca',[ListaPresencaController::class, 'ListaColaboradoresTreinamento'])->name('lista_colaboradores_treinamento');

@@ -22,19 +22,26 @@ class TreinamentoController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Treinamento $treinamento, Setor $setor,MatrizTreinamento $m_treinamento, Professor $professor)
+    public function index(Request $request,Treinamento $treinamento, Setor $setor,MatrizTreinamento $m_treinamento, Professor $professor)
     {
-        $treinamentos_filtro = $treinamento->where('treinamento_ativo', 'SIM')->get();
-        $treinamentos = $treinamento->get();
+        $valor = $request->input('valor');
+        if ($valor == 'false') {
+            $treinamentos = $treinamento->get();
+        } else {
+            $treinamentos = $treinamento->where('treinamento_ativo', 'SIM')->get();
+        }
         $m_treinamentos = $m_treinamento->where('m_treinamento_ativo', 'SIM')->get();
         $professores = $professor->where('professor_ativo','SIM')->get();
         $setores = $setor->where('setor_ativo','SIM')->get();
+        
+        
+
 
         return view(
             'treinamentos/treinamentos',
             compact(
+                'valor',
                 'treinamentos',
-                'treinamentos_filtro',
                 'm_treinamentos',
                 'professores',
                 'setores'
@@ -268,9 +275,27 @@ class TreinamentoController extends Controller
         return response()->json($matrizCargosDescricao);
     }
 
-    public function filtro(Request $request)
-    {
-        dd($request);
-    }
+    // public function filtro(Request $request,Treinamento $treinamento, Setor $setor,MatrizTreinamento $m_treinamento, Professor $professor)
+    // {
+    //     $treinamentos = $treinamento->get();
+    //     $m_treinamentos = $m_treinamento->where('m_treinamento_ativo', 'SIM')->get();
+    //     $professores = $professor->where('professor_ativo','SIM')->get();
+    //     $setores = $setor->where('setor_ativo','SIM')->get();
+
+    //     $valor = $request->valor;
+
+
+
+    //     return view(
+    //         'treinamentos/treinamentos',
+    //         compact(
+    //             'valor',
+    //             'treinamentos',
+    //             'm_treinamentos',
+    //             'professores',
+    //             'setores'
+    //         )
+    //     );
+    // }
 
 }
