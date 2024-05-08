@@ -77,17 +77,21 @@
                     </div> --}}
 
                     <div class="col-sm-12 col-md-12 col-xxl-12">
-                        <label for="m_treinamento_cargos" class="label-input">
+                        <label class="label-input" for="m_treinamento_cargos">
                             {{ __('Positions that will receive the Training') }}
                         </label>
-                        <div class=" d-flex justify-between-content flex-wrap">
-                            @foreach ($cargos as $cargo)
-                                <div class="input col-6">
-                                    <input type="checkbox" name="m_treinamento_cargos[]" id="cargo_{{ $cargo['id'] }}"
-                                        value="{{ $cargo['id'] }}">
-                                    <label for="cargo_{{ $cargo['id'] }}" style="cursor: pointer">{{ $cargo['cargo_descricao'] }}</label>
+                        <div class="d-flex justify-between-content flex-wrap select-none input col-12" id="cargos" >
+                            <div class="input col-12">
+                                <div class="marcarTodos">
+                                    <input id="marcarTodos" type="checkbox">
+                                    <label for="marcarTodos">MARCAR TODOS</label>
                                 </div>
-                            @endforeach
+                                @foreach ($cargos as $cargo)
+                                    <input type="checkbox" name="m_treinamento_cargos[]" id="cargo_{{ $cargo['id'] }}" value="{{ $cargo['id'] }}">
+                                    <label class="checkbox" for="cargo_{{ $cargo['id'] }}">{{ $cargo['cargo_descricao'] }}</label>
+                                    <br>
+                                @endforeach  
+                            </div>                        
                         </div>
                     </div>
 
@@ -183,5 +187,11 @@
                 }
             });
         }
+
+        // Associa o evento 'change' ao checkbox 'Marcar Todos'
+        $(document).on('change', '#marcarTodos', function() {
+            $('#cargos input[type="checkbox"]').prop('checked', $(this).prop('checked'));
+        });
+
     </script>
 @endsection

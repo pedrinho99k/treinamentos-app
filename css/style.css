@@ -841,6 +841,7 @@ body {
     }
 }
 
+
 /* Botão de switch */
 .botao-switch {
     display: flex;
@@ -889,11 +890,22 @@ body {
     width: 0;
     visibility: hidden;
 }
-/* Botão de switch */
 
 
+
+
+/* Classes Personalizadas */
+.marcarTodos {
+    margin-bottom: 10px;
+    font-weight: bold;
+    cursor: pointer;
+}
 
 
 .select-none {
     user-select: none;
+}
+
+.checkbox {
+    cursor: pointer;
 }

@@ -71,8 +71,8 @@
 
                     <div class="col-sm-12 col-md-12 col-xxl-12">
                         <label class="label-input" for="m_treinamento_cargos">{{ __('Positions that will receive the Training') }}</label>
-                        <div class="d-flex justify-between-content flex-wrap">
-                            <div class="input col-12" id="treinamento_cargos"></div>
+                        <div class="d-flex justify-between-content flex-wrap select-none input col-6" id="cargos">
+                            <div class="input col-6" id="treinamento_cargos"></div>
                             <input type="hidden" id="cargo_id" name="cargo_id">
                         </div>
                     </div>
@@ -220,13 +220,22 @@
 
                     var cargosSelecionados = [];
 
+                    // Adiciona o checkbox "Marcar Todos"
+                    $('#treinamento_cargos').append('<div class="marcarTodos"><input id="marcarTodos" type="checkbox"><label for="marcarTodos">MARCAR TODOS</label></div>');
+
+                    // Associa o evento 'change' ao checkbox 'Marcar Todos'
+                    $(document).on('change', '#marcarTodos', function() {
+                        $('#cargos input[type="checkbox"]').prop('checked', $(this).prop('checked'));
+                    });
+
+                    // Loop para exibir os cargos
                     cargo.forEach(function(obj) {
                         // console.log(obj['id'] + obj['cargo_descricao']);
 
                         let checkboxId = 'checkboxCargos_' + obj['id']; // Cria um ID único
 
                         $('#treinamento_cargos').append(
-                            '<input id="' + checkboxId + '" type="checkbox" value="' + obj['id'] + '" v><label>' + obj['cargo_descricao'] + '</label><br>'
+                            '<input id="' + checkboxId + '" type="checkbox" value="' + obj['id'] + '"><label style="cursor: pointer" for="' + checkboxId +'">' + obj['cargo_descricao'] + '</label><br>'
                         );
 
                         cargosSelecionados.push(obj['id']);
