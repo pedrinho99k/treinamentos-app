@@ -90,6 +90,7 @@
                 <th class="sortable sortable-treinamentos">Data</th>
                 <th class="sortable sortable-treinamentos">Tempo</th>
                 <th class="sortable sortable-treinamentos">Ativo</th>
+                <th class="sortable sortable-treinamentos"></th>
             </tr>
         </thead>
         <tbody>
@@ -111,7 +112,7 @@
                             @csrf
                             @method('delete')
                             @if ($treinamento->treinamento_ativo === 'SIM')
-                                <button type="submit" class="mt-2 button button-transparent hover-danger">
+                                <button type="submit" class="button button-transparent hover-danger">
                                     <i class='bx bx-x'></i><span class="text">{{ __('Disable') }}</span></button>
                             @else
                                 <button type="submit" class="button button-transparent">
@@ -120,12 +121,12 @@
                                 </button>
                             @endif
                         </form>
-                        <button class="button button-transparent" onclick="imprimirLista({{ $treinamento->id }},'{{ $treinamento->MatrizTreinamento->m_treinamento_descricao }}','{{ \Carbon\Carbon::parse($treinamento->treinamento_data)->format('d/m/Y') }}','{{ $treinamento->professor->professor_nome }}','{{ $treinamento->treinamento_carga_horaria }}')">
+                        <button class="button button-transparent mt-2" onclick="imprimirLista({{ $treinamento->id }},'{{ $treinamento->MatrizTreinamento->m_treinamento_descricao }}','{{ \Carbon\Carbon::parse($treinamento->treinamento_data)->format('d/m/Y') }}','{{ $treinamento->professor->professor_nome }}','{{ $treinamento->treinamento_carga_horaria }}')">
                             <i class='bx bx-printer'></i>
                             <span class="text">Imprimir</span>
                         </button>
 
-                        <button class="button button-transparent"
+                        <button class="button button-transparent mt-2"
                         onclick="window.location.href ='{{ route('treinamento_presenca.index', $treinamento->id) }}'">
                             <i class="bx bx-clipboard"></i>
                             <span class="text">Presença</span>

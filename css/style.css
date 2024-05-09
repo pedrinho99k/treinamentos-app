@@ -510,13 +510,15 @@ body {
 .content main .bottom-data .orders table th {
     padding-bottom: 12px !important;
     font-size: 13px;
-    text-align: left;
+    text-align: center;
     border-bottom: 1px solid var(--grey);
 }
 
 .content main .bottom-data .orders table td {
-    padding: 16px 0 !important;
-    text-align: left;
+    padding: 10px 6px !important;
+    text-align: center;
+    vertical-align: text-top;
+    user-select: none;
 }
 
 .content main .bottom-data .orders table tr td:first-child {
