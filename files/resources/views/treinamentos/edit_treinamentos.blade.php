@@ -95,6 +95,13 @@
                         </div>
                     </div>
 
+                    <div class="col-sm-12 col-md-12 col-xxl-12">
+                        <label for="treinamento_observacoes" class="label-input">{{ __('Comments') }}</label>
+                        <textarea rows="4" id="treinamento_observacoes"
+                            class="form-input @error('treinamento_observacoes') is-invalid @enderror" name="treinamento_observacoes"
+                            value="{{ old('treinamento_observacoes') }}" autocomplete="off">{{ $treinamento_observacoes }}</textarea>
+                    </div>
+
                     {{-- <div>
                         <div class="input col-6">
                             <input type="checkbox" name="m_treinamento_obrigatorio_avaliacao_eficacia"

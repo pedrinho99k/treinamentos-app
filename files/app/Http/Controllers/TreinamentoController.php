@@ -137,6 +137,8 @@ class TreinamentoController extends Controller
         // Buscar no Registro de Treinamentos
         $treinamento_registro = TreinamentoRegistro::where('treinamento_id', $id)->pluck('cargo_id')->toArray();
 
+        $treinamento_observacoes = $treinamento->treinamento_observacoes;
+
         // Buscar os setores
         $setores = $setor->all();
 
@@ -149,7 +151,8 @@ class TreinamentoController extends Controller
                 'treinamento',
                 'professores',
                 'descricao',
-                'treinamento_registro'
+                'treinamento_registro',
+                'treinamento_observacoes'
             )
         );
     }
@@ -176,7 +179,7 @@ class TreinamentoController extends Controller
         if (empty($cargosSelecionados)) {
             return back()->with('error', 'Selecione um cargo');
         }
-
+        
         $dataAtual = Carbon::now();
 
         $treinamento->update([
@@ -185,6 +188,7 @@ class TreinamentoController extends Controller
             'treinamento_data' => $request->treinamento_data,
             'treinamento_tempo' => $request->treinamento_tempo,
             'updated_at' => $cargosSelecionados,
+            'treinamento_observacoes' => $request->treinamento_observacoes,
             // 'treinamento_obrigatorio' => $request->treinamento_obrigatorio,
             // 'treinamento_obrigatorio_avaliacao_eficacia' => $request->treinamento_obrigatorio_avaliacao_eficacia,
             // 'treinamento_ativo' => $request->treinamento_ativo,
