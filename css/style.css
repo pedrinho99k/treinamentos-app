@@ -569,7 +569,7 @@ body {
 
 .content main .bottom-data .reminders {
     flex-grow: 1;
-    flex-basis: 350px;
+    /* flex-basis: 350px; */
 }
 
 .content main .bottom-data .reminders-pequeno{

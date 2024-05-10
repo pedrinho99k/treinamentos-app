@@ -305,6 +305,7 @@
 
 .label-input {
     font-weight: 600;
+    display: block;
 }
 
 .button {
