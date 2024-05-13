@@ -19,13 +19,13 @@
                 </div>
             </div>
             <div class="formulario">
-                <form method="POST" action="{{ route('treinamentos.store') }}" class="row form-content">
+                <form method="POST" action="{{ route('treinamentos.store') }}" class="row form-content col-12">
                     @csrf
 
                     <div class="col-sm-12 col-md-12 col-xxl-12">
                         <label for="treinamento_setor_responsavel_id"
                             class="label-input">{{ __('Responsible sector') }}</label>
-                        <select id="treinamento_setor_responsavel_id" type="text" class="form-input"
+                        <select id="treinamento_setor_responsavel_id" type="text" class="form-input col-12"
                             name="treinamento_setor_responsavel_id" required>
                             @foreach ($setores as $setor)
                                 <option value="{{ $setor->id }}">{{ $setor->id }} - {{ $setor->setor_descricao }}

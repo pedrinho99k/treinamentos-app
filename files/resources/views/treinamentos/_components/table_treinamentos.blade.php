@@ -72,12 +72,12 @@
 
 
             <div class="clearable-input">
-                <input class="form-input filtro-nome-treinamentos" type="text" placeholder="Filtrar por nome">
+                <input class="form-input filtro-nome-treinamentos" id="search-input" type="text" placeholder="Filtrar por nome">
                 <span class="clear-icon">&#10006;</span>
             </div>
             <button class="button button-transparent botao-filtrar-treinamentos">
                 <i class='bx bx-search'></i>
-                <span class="text">{{ __('Search') }}</span>
+                {{-- <span class="text">{{ __('Search') }}</span> --}}
             </button>
         </div>
     </div>
@@ -121,12 +121,12 @@
                                 </button>
                             @endif
                         </form>
-                        <button class="button button-transparent mt-2" onclick="imprimirLista({{ $treinamento->id }},'{{ $treinamento->MatrizTreinamento->m_treinamento_descricao }}','{{ \Carbon\Carbon::parse($treinamento->treinamento_data)->format('d/m/Y') }}','{{ $treinamento->professor->professor_nome }}','{{ $treinamento->treinamento_carga_horaria }}')">
+                        <button class="button button-transparent" onclick="imprimirLista({{ $treinamento->id }},'{{ $treinamento->MatrizTreinamento->m_treinamento_descricao }}','{{ \Carbon\Carbon::parse($treinamento->treinamento_data)->format('d/m/Y') }}','{{ $treinamento->professor->professor_nome }}','{{ $treinamento->treinamento_carga_horaria }}')">
                             <i class='bx bx-printer'></i>
                             <span class="text">Imprimir</span>
                         </button>
 
-                        <button class="button button-transparent mt-2"
+                        <button class="button button-transparent"
                         onclick="window.location.href ='{{ route('treinamento_presenca.index', $treinamento->id) }}'">
                             <i class="bx bx-clipboard"></i>
                             <span class="text">Presença</span>
@@ -274,7 +274,7 @@
                 var linha = $(this);
                 var encontrou = false;
 
-                linha.find("td:nth-child(2)").each(function() {
+                linha.find("td:nth-child(1), td:nth-child(2), td:nth-child(3), td:nth-child(4)").each(function() {
                     var conteudoCelula = $(this).text().toLowerCase();
 
                     if (conteudoCelula.includes(filtro)) {
@@ -294,6 +294,8 @@
             // Mostra a linha de "Nenhum registro encontrado" se nenhum registro for encontrado
             if (!registrosEncontrados) {
                 $(".sem-registro-treinamentos").show();
+            } else {
+                $(".sem-registro-treinamentos").hide();
             }
         }
 
@@ -363,6 +365,14 @@
             var order = $(this).hasClass("asc") ? "desc" : "asc";
             realizarOrdenacao(colIndex, order);
         });
+
+        // Função de pesquisar com o Enter
+        document.getElementById('search-input').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                realizarPesquisa();
+            }
+        })
 
         // function verificarCheckbox() {
         //     var isChecked = $('#filtro').is(':checked');
