@@ -508,7 +508,7 @@ body {
 }
 
 .content main .bottom-data .orders table th {
-    padding-bottom: 12px !important;
+    padding: 0px 1rem 12px 1rem !important;
     font-size: 13px;
     text-align: center;
     border-bottom: 1px solid var(--grey);

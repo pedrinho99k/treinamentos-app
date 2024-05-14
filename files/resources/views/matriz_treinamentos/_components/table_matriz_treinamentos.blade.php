@@ -15,12 +15,8 @@
             </button>
         </div>
         <div class="sub-header">
-            <i class='bx bx-library'></i>
-            <h3>{{ __('Registered Training Matrixes') }}</h3>
-        </div>
-        <div class="sub-header">
             <div class="clearable-input">
-                <input class="form-input filtro-nome-matriz-treinamentos" type="text" placeholder="Filtrar por nome">
+                <input class="form-input filtro-nome-matriz-treinamentos search-input" type="text" placeholder="Filtrar">
                 <span class="clear-icon">&#10006;</span>
             </div>
             <button class="button button-transparent botao-filtrar-matriz-treinamentos">
@@ -33,11 +29,12 @@
         <thead>
             <tr>
                 <th class="sortable sortable-matriz-treinamentos">Id</th>
-                <th class="sortable sortable-matriz-treinamentos">Descrição Matriz de Treinamento</th>
+                <th class="sortable sortable-matriz-treinamentos">Descrição</th>
                 <th class="sortable sortable-matriz-treinamentos">Tempo</th>
                 <th class="sortable sortable-matriz-treinamentos">Obrigatório</th>
                 <th class="sortable sortable-matriz-treinamentos">Avaliação de Eficácia</th>
-                <th class="sortable sortable-matriz-treinamentos">Cargos que receberão o Treinamento</th>
+                <th class="sortable sortable-matriz-treinamentos">Setor</th>
+                <th class="sortable sortable-matriz-treinamentos">Cargos</th>
                 <th class="sortable sortable-matriz-treinamentos">Ativo</th>
                 <th>Opções</th>
             </tr>
@@ -62,6 +59,7 @@
                             {{ $matriz_treinamento->m_treinamento_obrigatorio_avaliacao_eficacia }}
                         @endif
                     </td>
+                    <td>{{ ($matriz_treinamento->setor->setor_descricao )}}</td>
                     <td class="td-lista">
                         @foreach ($matriz_treinamento->cargos as $matrizTreinamentoCargo)
                            <div>{{ $matrizTreinamentoCargo->cargo->cargo_descricao }}</div>
@@ -79,7 +77,7 @@
                             @method('delete')
                             @if ($matriz_treinamento->m_treinamento_ativo === 'SIM')
                                 <button type="submit" class="mt-2 button button-transparent hover-danger">
-                                    <i class='bx bx-x'></i><span class="text">{{ __('Delete') }}</span></button>
+                                    <i class='bx bx-x'></i><span class="text">{{ __('Inactivate') }}</span></button>
                             @else
                                 <button type="submit" class="button button-transparent">
                                     <i class='bx bx-x'></i><span class="text">{{ __('Activate') }}</span></button>
@@ -129,9 +127,7 @@
             });
 
             // Mostra a linha de "Nenhum registro encontrado" se nenhum registro for encontrado
-            if (!registrosEncontrados) {
-                $(".sem-registro-matriz-treinamentos").show();
-            }
+	        $(".sem-registro-matriz-treinamentos").toggle(!registrosEncontrados);
         }
 
         // Pesquisa
@@ -200,5 +196,17 @@
         });
 
 
+        // Função de pesquisar com Enter
+        var searchInputs = document.querySelectorAll('.search-input');
+
+        searchInputs.forEach(function(input) {
+            input.addEventListener('keypress', function(event) {
+                if (event.key === 'Enter') {
+                    event.preventDefault;
+                    console.log('teste');
+                    realizarPesquisa();
+                }
+            })
+        })
     });
 </script>
