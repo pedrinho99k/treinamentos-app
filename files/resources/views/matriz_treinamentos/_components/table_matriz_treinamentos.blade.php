@@ -16,7 +16,19 @@
         </div>
         <div class="sub-header">
             <div class="clearable-input">
-                <input class="form-input filtro-nome-matriz-treinamentos search-input" type="text" placeholder="Filtrar">
+                <input id="filtro_id" class="form-input search-input" type="text" placeholder="Filtrar ID">
+                <span class="clear-icon">&#10006;</span>
+            </div>
+            <div class="clearable-input">
+                <input id="filtro_descricao" class="form-input search-input" type="text" placeholder="Filtrar Descrição">
+                <span class="clear-icon">&#10006;</span>
+            </div>
+            <div class="clearable-input">
+                <input id="filtro_setor" class="form-input search-input" type="text" placeholder="Filtrar Setores">
+                <span class="clear-icon">&#10006;</span>
+            </div>
+            <div class="clearable-input">
+                <input id="filtro_cargo" class="form-input search-input" type="text" placeholder="Filtrar Cargos">
                 <span class="clear-icon">&#10006;</span>
             </div>
             <button class="button button-transparent botao-filtrar-matriz-treinamentos">
@@ -95,39 +107,55 @@
 </div>
 <script>
     $(document).ready(function() {
-        // Função de pesquisa
-        function realizarPesquisa() {
-            var filtro = $(".filtro-nome-matriz-treinamentos").val().toLowerCase();
+        function realizarPesquisa(idFiltro) {
+            var filtro = $("#" + idFiltro).val().toLowerCase();
+            var coluna;
 
-            // Oculta a linha de "Nenhum registro encontrado" por padrão
+            console.log(filtro);
+
+            switch (idFiltro) {
+                case "filtro_id":
+                    coluna = "td:nth-child(1)"; // Atribua o valor da coluna diretamente como uma string
+                    break;
+                case "filtro_descricao":
+                    coluna = "td:nth-child(2)";
+                    break;
+                case "filtro_setor":
+                    coluna = "td:nth-child(6)";
+                    break;
+                case "filtro_cargo":
+                    coluna = "td:nth-child(7)";
+                    break;
+                default:
+                    console.log("filtro nao especificado");
+            }
+
             $(".sem-registros-matriz-treinamentos").hide();
 
             var registrosEncontrados = false;
 
-            // Itera pelas linhas da tabela, exceto pelo cabeçalho
             $(".tabela-registros-matriz-treinamentos tbody tr").each(function() {
                 var linha = $(this);
                 var encontrou = false;
 
-                linha.find("td:nth-child(2)").each(function() {
+                linha.find(coluna).each(function() {
                     var conteudoCelula = $(this).text().toLowerCase();
 
                     if (conteudoCelula.includes(filtro)) {
                         encontrou = true;
                         registrosEncontrados = true;
-                        return false; // Sai do loop das células se encontrar correspondência
+                        return false;
                     }
                 });
 
                 if (encontrou) {
-                    linha.show(); // Mostra a linha se encontrar correspondência
+                    linha.show();
                 } else {
-                    linha.hide(); // Esconde a linha se não encontrar correspondência
+                    linha.hide();
                 }
             });
 
-            // Mostra a linha de "Nenhum registro encontrado" se nenhum registro for encontrado
-	        $(".sem-registro-matriz-treinamentos").toggle(!registrosEncontrados);
+            $(".sem-registro-matriz-treinamentos").toggle(!registrosEncontrados);
         }
 
         // Pesquisa
@@ -139,20 +167,17 @@
         $(".clear-icon").hide();
         $(".clear-icon").click(function() {
 
-            $(".filtro-nome-matriz-treinamentos").val("");
+            $(this).prev("input").val("");
             $(this).hide();
             $(".botao-filtrar-matriz-treinamentos").trigger('click');
         });
 
         // Mostra ou esconde o ícone de limpar com base no conteúdo do campo
-        $(".filtro-nome-matriz-treinamentos").on("input", function() {
+        $(".search-input").on("input", function() {
 
             var inputValue = $(this).val();
-            if (inputValue.length > 0) {
-                $(".clear-icon").show();
-            } else {
-                $(".clear-icon").hide();
-            }
+
+            $(this).next(".clear-icon").toggle(inputValue.length > 0);
         });
 
 
@@ -202,9 +227,10 @@
         searchInputs.forEach(function(input) {
             input.addEventListener('keypress', function(event) {
                 if (event.key === 'Enter') {
-                    event.preventDefault;
-                    console.log('teste');
-                    realizarPesquisa();
+                    event.preventDefault();
+
+                    var idFiltro = this.id;
+                    realizarPesquisa(idFiltro);
                 }
             })
         })
