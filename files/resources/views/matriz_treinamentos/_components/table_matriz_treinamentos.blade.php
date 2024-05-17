@@ -37,6 +37,10 @@
             </button>
         </div>
     </div>
+
+    <!-- Div para exibir a nova janela com os demais cargos -->
+    <div id="floating-window" style="display: none;"></div>
+
     <table class="tabela-registros-matriz-treinamentos">
         <thead>
             <tr>
@@ -53,7 +57,7 @@
         </thead>
         <tbody>
             @foreach ($matriz_treinamentos as $matriz_treinamento)
-                <tr>
+                <tr class="tr" data-matriz-treinamento-id="{{ $matriz_treinamento->id }}">
                     <td>{{ $matriz_treinamento->id }}</td>
                     <td>{{ $matriz_treinamento->m_treinamento_descricao }}</td>
                     <td>{{ $matriz_treinamento->m_treinamento_tempo }}</td>
@@ -72,10 +76,15 @@
                         @endif
                     </td>
                     <td>{{ ($matriz_treinamento->setor->setor_descricao )}}</td>
-                    <td class="td-lista">
-                        @foreach ($matriz_treinamento->cargos as $matrizTreinamentoCargo)
-                           <div>{{ $matrizTreinamentoCargo->cargo->cargo_descricao }}</div>
+                    <td class="td-lista" data-cargos="{{ json_encode($matriz_treinamento->cargos->pluck('cargo')->pluck('cargo_descricao')->toArray()) }}">
+                        <!-- Conteúdo dos cargos -->
+                        @foreach ($matriz_treinamento->cargos->take(3) as $matrizTreinamentoCargo)
+                            <div>{{ $matrizTreinamentoCargo->cargo->cargo_descricao }}</div>
                         @endforeach
+                        <!-- Reticências indicando que há mais conteúdo -->
+                        @if ($matriz_treinamento->cargos->count() > 3)
+                            <div>...</div>
+                        @endif
                     </td>
                     <td>{{ $matriz_treinamento->m_treinamento_ativo }}</td>
                     <td class="td-option">
@@ -107,6 +116,38 @@
 </div>
 <script>
     $(document).ready(function() {
+
+        // $('.tr').click(function() {
+        //     var matrizTreinamentoId = $(this).data('matriz-treinamento-id');
+        //     var hiddenCargos = $(this).find('.td-lista').data('cargos');
+
+        $('.td-lista').click(function() {
+            // var hiddenCargos = $(this).data('matriz-treinamento-id');
+
+            var matrizTreinamentoId = $(this).closest('.tr').data('matriz-treinamento-id');
+            var cargosJson = $(this).data('cargos');
+
+            var hiddenCargosHtml = cargosJson.map(function(cargo) {
+                return `<div>${cargo}</div>`;
+            }).join('');
+
+            // Abrir a nova janela
+            $('#floating-window').html(hiddenCargosHtml);
+            $('#floating-window').fadeIn();
+
+            // Fechar a nova janela ao clicar fora dela
+            $('#floating-window').click(function(event) {
+                if (!$(event.target).closest('.hidden-cargos').length) {
+                    $(this).fadeOut();
+                }
+            });
+        });
+
+
+
+
+
+
         function realizarPesquisa(idFiltro) {
             var filtro = $("#" + idFiltro).val().toLowerCase();
             var coluna;
@@ -236,3 +277,16 @@
         })
     });
 </script>
+<style>
+    #floating-window {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #fff;
+        border: 1px solid #ccc;
+        padding: 20px;
+        border-radius: 5px;
+        z-index: 9999;
+    }
+</style>
