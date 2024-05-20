@@ -83,10 +83,10 @@
                         @endforeach
                         <!-- Reticências indicando que há mais conteúdo -->
                         @if ($matriz_treinamento->cargos->count() > 3)
-                            <div>...</div>
+                            <div class="bold">Mais</div>
                         @endif
                     </td>
-                    <td>{{ $matriz_treinamento->m_treinamento_ativo }}</td>
+                    <td class="bold">{{ $matriz_treinamento->m_treinamento_ativo }}</td>
                     <td class="td-option">
                         <button class="button button-transparent"
                             onclick="window.location.href ='{{ route('matriz_treinamentos.show', $matriz_treinamento->id) }}'">
@@ -131,9 +131,19 @@
                 return `<div>${cargo}</div>`;
             }).join('');
 
-            // Abrir a nova janela
-            $('#floating-window').html(hiddenCargosHtml);
+            // Adiciona o conteúdo dos cargos à janela flutuante
+            $('#floating-window').html(`
+                <button class="close-button">&times;</button>
+                <div class="hidden-cargos">${hiddenCargosHtml}</div>
+            `);
+
+            // Exibe a janela flutuante
             $('#floating-window').fadeIn();
+
+            // Fecha a janela flutuante ao clicar no botão de fechar
+            $('#floating-window .close-button').click(function() {
+                $('#floating-window').fadeOut();
+            });
 
             // Fechar a nova janela ao clicar fora dela
             $('#floating-window').click(function(event) {
@@ -277,16 +287,3 @@
         })
     });
 </script>
-<style>
-    #floating-window {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background-color: #fff;
-        border: 1px solid #ccc;
-        padding: 20px;
-        border-radius: 5px;
-        z-index: 9999;
-    }
-</style>
