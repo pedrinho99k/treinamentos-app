@@ -113,7 +113,7 @@
             </tr>
         </tbody>
     </table>
-    <div class="pagination">
+    <div>
         {{ $matriz_treinamentos->links() }}
     </div>
 </div>

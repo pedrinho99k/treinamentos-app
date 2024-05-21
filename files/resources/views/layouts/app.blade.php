@@ -128,7 +128,7 @@
         <!-- Main Content -->
         <div class="content">
             <!-- Navbar -->
-            <nav>
+            <nav class="head">
                 <i class='bx bx-menu'></i>
                 <form action="">
                     @guest
