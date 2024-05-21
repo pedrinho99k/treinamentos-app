@@ -14,28 +14,28 @@
                 <span class="text">{{ __('Add New') }}</span>
             </button>
         </div>
-        <div class="sub-header">
+        <form class="sub-header" action="{{ route('matriz_treinamentos.index') }}" method="GET">
             <div class="clearable-input">
-                <input id="filtro_id" class="form-input search-input" type="text" placeholder="Filtrar ID">
+                <input id="filtro_id" name="identificador" value="{{ request('identificador') }}" class="form-input search-input" type="text" placeholder="Filtrar ID">
                 <span class="clear-icon">&#10006;</span>
             </div>
             <div class="clearable-input">
-                <input id="filtro_descricao" class="form-input search-input" type="text" placeholder="Filtrar Descrição">
+                <input id="filtro_descricao" name="descricao" value="{{ request('descricao') }}" class="form-input search-input" type="text" placeholder="Filtrar Descrição">
                 <span class="clear-icon">&#10006;</span>
             </div>
             <div class="clearable-input">
-                <input id="filtro_setor" class="form-input search-input" type="text" placeholder="Filtrar Setores">
+                <input id="filtro_setor" name="setor" value="{{ request('setor') }}" class="form-input search-input" type="text" placeholder="Filtrar Setores">
                 <span class="clear-icon">&#10006;</span>
             </div>
             <div class="clearable-input">
-                <input id="filtro_cargo" class="form-input search-input" type="text" placeholder="Filtrar Cargos">
+                <input id="filtro_cargo" name="cargo" value="{{ request('cargo') }}" class="form-input search-input" type="text" placeholder="Filtrar Cargos">
                 <span class="clear-icon">&#10006;</span>
             </div>
-            <button class="button button-transparent botao-filtrar-matriz-treinamentos">
+            <button type="submit" class="button button-transparent botao-filtrar-matriz-treinamentos">
                 <i class='bx bx-search'></i>
                 <span class="text">{{ __('Search') }}</span>
             </button>
-        </div>
+        </form>
     </div>
 
     <!-- Div para exibir a nova janela com os demais cargos -->
@@ -113,8 +113,11 @@
             </tr>
         </tbody>
     </table>
-    <div>
+    {{-- <div>
         {{ $matriz_treinamentos->links() }}
+    </div> --}}
+    <div>
+        {{ $matriz_treinamentos->appends(request()->input())->links() }}
     </div>
 </div>
 <script>
@@ -274,10 +277,7 @@
         searchInputs.forEach(function(input) {
             input.addEventListener('keypress', function(event) {
                 if (event.key === 'Enter') {
-                    event.preventDefault();
-
-                    var idFiltro = this.id;
-                    realizarPesquisa(idFiltro);
+                    document.getElementById('search-form').submit();
                 }
             })
         })

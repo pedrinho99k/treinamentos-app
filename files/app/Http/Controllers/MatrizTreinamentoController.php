@@ -14,10 +14,35 @@ class MatrizTreinamentoController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(MatrizTreinamento $matriz_treinamento, Setor $setor, Cargo $cargo)
+    public function index(MatrizTreinamento $matriz_treinamento, Setor $setor, Cargo $cargo, Request $request)
     {
+        $query = MatrizTreinamento::query();
+
+        if ($request->filled('identificador')) {
+            $query->where('id', 'like', '%' . $request->identificador . '%');
+        }
+
+        if ($request->filled('descricao')) {
+            $query->where('m_treinamento_descricao', 'like', '%' . $request->descricao . '%');
+        }
+
+        if ($request->filled('setor')) {
+            $setorDescricao = $request->setor;
+            $query->whereHas('setor', function ($q) use ($setorDescricao) {
+                $q->where('setor_descricao', 'like', '%' . $setorDescricao . '%');
+            });
+        }
+
+        if ($request->filled('cargo')) {
+            $cargoDescricao = $request->cargo;
+            $query->whereHas('cargos.cargo', function ($q) use ($cargoDescricao) {
+                $q->where('cargo_descricao', 'like', '%' . $cargoDescricao . '%');
+            });
+        }
+
         // $matriz_treinamentos = $matriz_treinamento->with('cargos')->get();
-        $matriz_treinamentos = MatrizTreinamento::with('cargos.cargo')->paginate(20);
+        // $matriz_treinamentos = MatrizTreinamento::with('cargos.cargo')->paginate(20);
+        $matriz_treinamentos = $query->with('cargos')->paginate(20);
         $setores = $setor->all();
         $cargos = $cargo->all();
         return view('matriz_treinamentos/matriz_treinamentos', compact('matriz_treinamentos', 'setores', 'cargos'));

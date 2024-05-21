@@ -726,7 +726,7 @@ body {
 .header .sub-header {
     display: flex;
     align-items: center;
-    grid-gap: 20px;
+    grid-gap: 10px;
 }
 
 .janela-modal {
