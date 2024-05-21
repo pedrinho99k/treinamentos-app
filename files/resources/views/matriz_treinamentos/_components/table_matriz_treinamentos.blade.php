@@ -113,17 +113,13 @@
             </tr>
         </tbody>
     </table>
+    <div class="pagination">
+        {{ $matriz_treinamentos->links() }}
+    </div>
 </div>
 <script>
     $(document).ready(function() {
-
-        // $('.tr').click(function() {
-        //     var matrizTreinamentoId = $(this).data('matriz-treinamento-id');
-        //     var hiddenCargos = $(this).find('.td-lista').data('cargos');
-
         $('.td-lista').click(function() {
-            // var hiddenCargos = $(this).data('matriz-treinamento-id');
-
             var matrizTreinamentoId = $(this).closest('.tr').data('matriz-treinamento-id');
             var cargosJson = $(this).data('cargos');
 

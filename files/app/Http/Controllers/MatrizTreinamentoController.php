@@ -16,7 +16,8 @@ class MatrizTreinamentoController extends Controller
      */
     public function index(MatrizTreinamento $matriz_treinamento, Setor $setor, Cargo $cargo)
     {
-        $matriz_treinamentos = $matriz_treinamento->with('cargos')->get();
+        // $matriz_treinamentos = $matriz_treinamento->with('cargos')->get();
+        $matriz_treinamentos = MatrizTreinamento::with('cargos.cargo')->paginate(20);
         $setores = $setor->all();
         $cargos = $cargo->all();
         return view('matriz_treinamentos/matriz_treinamentos', compact('matriz_treinamentos', 'setores', 'cargos'));
