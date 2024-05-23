@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<h3 class="text-center">Bem-Vindos ao Treinamentos HR</h3>
+<h3 class="text-center" style="color: var(--dark)">Bem-Vindos ao Treinamentos HR</h3>
     <!-- Insights 
     <ul class="insights">
         <li>

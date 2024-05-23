@@ -34,43 +34,6 @@
             </form>
 
 
-
-
-            {{-- <form action="{{ route('treinamentos.filtro')}}" method="post">
-                @csrf
-                <input type="checkbox" name="botao-ativo" >
-                <button value="true" name="botao-ativo">teste</button>
-            </form> --}}
-
-
-            {{-- <form id="filtroForm" action="{{ route('treinamentos.filtro') }}" method="POST">
-                @csrf
-                <div class="botao-switch">
-                    <span>Filtrar ativos</span>
-                    <input type="checkbox" id="checkboxFiltro" name="checkboxFiltro" value="false" checked>
-                    <label for="checkboxFiltro"></label>    
-                </div>
-            </form> --}}
-
-
-
-            {{-- <button value="true" name="botao-ativo">DESATIVAR FILTRO</button> --}}
-
-
-
-
-
-            {{-- <div class="botao-switch">
-                <input type="checkbox" name="filtro-ativo" id="filtro">
-                <label for="filtro"></label>
-            </div> --}}
-            
-            
-            
-
-
-
-
             <div class="clearable-input">
                 <input class="form-input filtro-nome-treinamentos" id="search-input" type="text" placeholder="Filtrar por nome">
                 <span class="clear-icon">&#10006;</span>
@@ -121,7 +84,7 @@
                                 </button>
                             @endif
                         </form>
-                        <button class="button button-transparent" onclick="imprimirLista({{ $treinamento->id }},'{{ $treinamento->MatrizTreinamento->m_treinamento_descricao }}','{{ \Carbon\Carbon::parse($treinamento->treinamento_data)->format('d/m/Y') }}','{{ $treinamento->professor->professor_nome }}','{{ $treinamento->treinamento_carga_horaria }}')">
+                        <button class="button button-transparent" onclick="imprimirTabela({{ $treinamento->id }},'{{ $treinamento->MatrizTreinamento->m_treinamento_descricao }}','{{ \Carbon\Carbon::parse($treinamento->treinamento_data)->format('d/m/Y') }}','{{ $treinamento->professor->professor_nome }}','{{ $treinamento->treinamento_carga_horaria }}','{{ $treinamento->treinamento_observacoes}} ')">
                             <i class='bx bx-printer'></i>
                             <span class="text">Imprimir</span>
                         </button>
@@ -143,64 +106,25 @@
 
     <div class="d-none">
         <div id="colaboradoresTable">
-            <div class="row-y-0">
-                <div class="p-2 col-12 border border-dark text-center treinamento_descricao">
-                </div>
-                <div class="p-1 col-6 border border-dark text-center ">
-                    <span>Professor: </span>
-                    <span class="treinamento_professor"></span>
-                </div>
-                <div class="p-1 col-3 border border-dark text-center">
-                    <span>Data: </span>
-                    <span class="treinamento_data"></span>
-                </div>
-                <div class="p-1 col-3 border border-dark text-center">
-                    <span>Duração: </span>
-                    <span class="treinamento_carga_horaria"></span>
-                </div>
-            </div>
-                <table id="tabela" class="bg-white w-100" style="font-size: 10px !important">
-                    <thead>
-                        <tr>
-                            <th class="p-1 border border-dark">Colaborador</th>
-                            <th class="p-1 border border-dark">Cargo</th>
-                            <th class="p-1 border border-dark">Setor</th>
-                            <th class="p-1 border border-dark">Assinatura</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+            <table id="tabela" class="bg-white w-100" style="font-size: 10px !important">
+                <tbody>
 
-                    </tbody>
-                </table>
-            
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
 <script>
-    // Event listener para o botão de impressão
-    function imprimirLista(treinamento_id,treinamento_descricao,treinamento_data,treinamento_professor,treinamento_carga_horaria) {
-        $(".treinamento_descricao").text(treinamento_descricao);
-        $(".treinamento_data").text(treinamento_data);
-        $(".treinamento_professor").text(treinamento_professor);
-        $(".treinamento_carga_horaria").text(treinamento_carga_horaria);
-        carregarColaboradores(treinamento_id);
-    }
- 
-    //Função de imprimir lista de presença
-
-    // Função para carregar os colaboradores via AJAX
-    function carregarColaboradores(treinamento_id) {
+    // Função para imprimir somente a tabela
+    function carregarColaboradores(treinamento_id, callback) {
         $.ajax({
             url: "{{ route('lista_colaboradores_treinamento') }}",
             type: "GET",
-            data: {
-                treinamento_id
-            },
+            data: { treinamento_id },
             dataType: "json",
             success: function(colaboradores) {
                 console.log(colaboradores);
-                exibirColaboradores(colaboradores);
-                imprimirTabela();
+                callback(colaboradores);
             },
             error: function() {
                 console.error("Erro ao carregar colaboradores");
@@ -208,55 +132,104 @@
         });
     }
 
-    // Função para exibir os colaboradores na tabela
-    function exibirColaboradores(colaboradores) {
-        const colaboradoresTable = $("#tabela tbody");
-        colaboradoresTable.empty();
+    function imprimirTabela(treinamento_id, treinamento_descricao, treinamento_data, treinamento_professor, treinamento_carga_horaria, treinamento_observacoes) {
+        // Atualiza os textos do cabeçalho
+        $(".treinamento_descricao").text(treinamento_descricao);
+        $(".treinamento_data").text(treinamento_data);
+        $(".treinamento_professor").text(treinamento_professor);
+        $(".treinamento_carga_horaria").text(treinamento_carga_horaria);
+        $(".treinamento_observacao").text(treinamento_observacoes);
 
-        $.each(colaboradores, function(index, colaborador) {
-            const row = $(`<tr>`);
-            row.html(`
-                <td class="border border-dark my-8 text-xs w-10">${colaborador.colaborador_nome}</td>
-                <td class="border border-dark my-8 text-xs w-10">${colaborador.cargo_descricao}</td>
-                <td class="border border-dark my-8 text-xs w-10">${colaborador.setor_descricao}</td>
-                <td class="border border-dark my-8 text-xs w-25"></td>
+        carregarColaboradores(treinamento_id, function(colaboradores) {
+            // Obtém a largura e a altura da tela do usuário
+            const largura = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+            const altura = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+
+            // Abre a tela do impressão
+            const janelaImprimir = window.open('', '', `width=${largura},height=${altura}`);
+            janelaImprimir.document.open();
+            janelaImprimir.document.write(`
+                <html>
+                    <head>
+                        <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+                        <link rel="stylesheet" href="{{ asset('css/responsive.css') }}">
+                        <title>Lista de Presença</title>
+                        <style>
+                            body {
+                                font-size: 10px;
+                                font-weight: bold;
+                            }
+                            @media print {
+                                .header {
+                                    display: table-header-group;
+                                }
+                                .content {
+                                    display: table-row-group;
+                                    margin-top: 20cm;
+                                }
+                                table {
+                                    width: 100%;
+                                    border-collapse: collapse;
+                                }
+                                th, td {
+                                    border: 1px solid black;
+                                    padding: 5px;
+                                    text-align: left;
+                                }
+                            }
+                        </style>
+                    </head>
+                    <body>
+                        <div>
+                            <table class="bg-white w-100" style="font-size: 10px !important">
+                                <thead>
+                                    <tr>
+                                        <th class="p-2 col-12 border border-dark text-center" colspan="4">${treinamento_descricao}</th>
+                                    </tr>
+                                    <tr>
+                                        <th class="p-1 border border-dark text-left" colspan="2">PROFESSOR: ${treinamento_professor}</th>
+                                        <th class="p-1 border border-dark text-left">DATA: ${treinamento_data}</th>
+                                        <th class="p-1 border border-dark text-left">DURAÇÃO: ${treinamento_carga_horaria}</th>
+                                    </tr>
+                                    <tr>
+                                        <th class="p-1 border border-dark text-left" colspan="4">OBSERVAÇÕES: ${treinamento_observacoes}</th>
+                                    </tr>
+                                    <tr>
+                                        <th class="p-1 border border-dark text-center" colspan="1">COLABORADOR</th>
+                                        <th class="p-1 border border-dark text-center" colspan="1">CARGO</th>
+                                        <th class="p-1 border border-dark text-center" colspan="1">SETOR</th>
+                                        <th class="p-1 border border-dark text-center" colspan="1">ASSINATURA</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
             `);
-            colaboradoresTable.append(row);
+
+            // Iteração para adicionar os <td>
+            colaboradores.forEach(function(colaborador) {
+                janelaImprimir.document.write(`
+                    <tr>
+                        <td class="p-1 border border-dark">${colaborador.colaborador_nome}</td>
+                        <td class="p-1 border border-dark">${colaborador.cargo_descricao}</td>
+                        <td class="p-1 border border-dark">${colaborador.setor_descricao}</td>
+                        <td class="p-1 border border-dark"></td>
+                    </tr>
+                `);
+            });
+
+            janelaImprimir.document.write(`
+                                </tbody>
+                            </table>
+                        </div>
+                    </body>
+                </html>
+            `);
+
+            janelaImprimir.print();
+            janelaImprimir.close();
         });
     }
 
-    // Função para imprimir somente a tabela
-    function imprimirTabela() {
-        const tabelaParaImprimir = document.getElementById("colaboradoresTable");
-        // Obtém a largura e a altura da tela do usuário
-        const largura = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-        const altura = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-        // Abre a tela do impressão
-        const janelaImprimir = window.open('', '', `width=${largura},height=${altura}`);
 
-        janelaImprimir.document.open();
-        janelaImprimir.document.write(
-            `<html>
-                <head>
-                <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-                <link rel="stylesheet" href="{{ asset('css/responsive.css') }}">
-                <style>
-                    /* Estilos para impressão */
-                    body {
-                        font-size: 10px; /* Tamanho da fonte */
-                        font-weight: bold; /* Negrito */
-                    }
-                </style>
-                <title>Imprimir Tabela</title>
-                </head>
-                <body>`
-        );
-        janelaImprimir.document.write(tabelaParaImprimir.outerHTML);
-        janelaImprimir.document.write('</body></html>');
-        janelaImprimir.document.close();
-        janelaImprimir.print();
-        janelaImprimir.close();
-    }
 
     $(document).ready(function() {
 
@@ -373,31 +346,6 @@
                 realizarPesquisa();
             }
         })
-
-        // function verificarCheckbox() {
-        //     var isChecked = $('#filtro').is(':checked');
-        //     var csrfToken = $('meta[name="csrf-token"]').attr('content');
-
-        //     console.log(isChecked);
-
-
-        // $('.botao-switch').change(function() {
-        //     var isChecked = $(this).is(':checked');
-
-        //     console.log(isChecked);
-
-        //     $.ajax({
-        //         url: '{{ route("treinamentos.filtro") }}',
-        //         type: 'POST',
-        //         data: {
-        //             isChecked: isChecked,
-        //             _token: '{{ csrf_token() }}'
-        //         }
-        //         success: function(response) {
-        //             console.log(response);
-        //         }
-        //     })
-        // })
 
         $('#checkboxFiltro').click(function() {
             var checkbox = $('#checkboxFiltro').val();

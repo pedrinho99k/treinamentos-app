@@ -919,7 +919,6 @@ body {
     transform: translate(-50%, -50%);
     background-color: var(--light);
     border: 1px solid #ccc;
-    /* padding: 30px; */
     padding: 30px 35px;
     border-radius: 5px;
     z-index: 9999;
@@ -972,7 +971,6 @@ body {
 /* styles.css */
 .pagination {
     height: 60px;
-    background: var(--light);
     align-items: center;
     grid-gap: 24px;
     display: flex;
@@ -982,17 +980,11 @@ body {
     left: 0;
     z-index: 1000;
     user-select: none;
-    background: var(--light);
     border-radius: 10px;
-}
-
-.pagination span {
-    cursor: default;
-    background: var(--light);
+    background-color: var(--light);
 }
 
 .pagination a {
-    background: var(--light);
     color: var(--dark);
 }
 
