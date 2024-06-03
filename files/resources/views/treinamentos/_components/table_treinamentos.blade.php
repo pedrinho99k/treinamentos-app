@@ -184,6 +184,13 @@
                             <table class="bg-white w-100" style="font-size: 10px !important">
                                 <thead>
                                     <tr>
+                                        <th colspan="4" style="border: none;">
+                                            <svg class="text-center" width="50" height="50">
+                                                <image href="{{ asset('img/LOGO HR.png') }}" width="50" height="50"/>
+                                            </svg>
+                                        </th>
+                                    </tr>
+                                    <tr>
                                         <th class="p-2 col-12 border border-dark text-center" colspan="4">${treinamento_descricao}</th>
                                     </tr>
                                     <tr>
@@ -225,7 +232,7 @@
             `);
 
             janelaImprimir.print();
-            janelaImprimir.close();
+            // janelaImprimir.close();
         });
     }
 

@@ -68,13 +68,16 @@
                         </select>
                     </div>
 
-                    <div class="col-sm-12 col-md-12 col-xxl-12">
+                    <div class="col-sm-12 col-md-12 col-xxl-12 user-select-none">
                         <label for="m_treinamento_cargos"
                             class="label-input">{{ __('Positions that will receive the Training') }}</label>
+                        <div class="marcarTodos"><input id="marcarTodos" type="checkbox">
+                            <label style="cursor: pointer" for="marcarTodos">MARCAR TODOS</label>
+                        </div>
                         <div class=" d-flex justify-between-content flex-wrap">
                             @foreach ($cargos as $cargo)
                                 <div class="input col-6">
-                                    <input type="checkbox" name="m_treinamento_cargos[]" id="cargo_{{ $cargo->id }}"
+                                    <input type="checkbox" name="m_treinamento_cargos[]" id="cargo_{{ $cargo->id }}" class="cargo_checkbox"
                                         value="{{ $cargo->id }}">
                                     <label for="cargo_{{ $cargo->id }}"
                                         style="cursor: pointer">{{ $cargo->cargo_descricao }}</label>
@@ -167,5 +170,10 @@
                 }
             });
         }
+
+        // Associa o evento 'change' ao checkbox 'Marcar Todos'
+        $(document).on('change', '#marcarTodos', function() {
+            $('.cargo_checkbox').prop('checked', $(this).prop('checked'));
+        });
     </script>
 @endsection
