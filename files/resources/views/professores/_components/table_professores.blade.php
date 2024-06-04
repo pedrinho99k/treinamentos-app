@@ -65,10 +65,10 @@
                             @method('delete')
                             @if ($professor->professor_ativo === 'SIM')
                                 <button type="submit" class="button button-transparent hover-danger">
-                                    <i class='bx bx-x'></i><span class="text">{{ __('Delete') }}</span></button>
+                                    <i class='bx bx-x'></i><span class="text">{{ __('Disable') }}</span></button>
                             @else
                                 <button type="submit" class="button button-transparent">
-                                    <i class='bx bx-x'></i><span class="text">{{ __('Activate') }}</span></button>
+                                    <i class='bx bx-check'></i><span class="text">{{ __('Activate') }}</span></button>
                             @endif
 
                         </form>

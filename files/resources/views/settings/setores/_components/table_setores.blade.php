@@ -42,7 +42,7 @@
                             @csrf
                             @method('delete')
                             <button type="submit" class="button button-transparent hover-danger"><i
-                                    class='bx bx-x'></i><span class="text">{{ __('Delete') }}</span></button>
+                                class='bx bx-x'></i><span class="text">{{ __('Disable') }}</span></button>
                         </form>
                     </td>
                 </tr>

@@ -232,7 +232,7 @@
             `);
 
             janelaImprimir.print();
-            // janelaImprimir.close();
+            janelaImprimir.close();
         });
     }
 

@@ -122,7 +122,7 @@
 </div>
 <script>
     $(document).ready(function() {
-        $('.td-lista').click(function() {
+        $(document).on('click', '.td-lista', function() {
             var matrizTreinamentoId = $(this).closest('.tr').data('matriz-treinamento-id');
             var cargosJson = $(this).data('cargos');
 
