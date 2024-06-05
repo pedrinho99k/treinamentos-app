@@ -40,8 +40,6 @@ class MatrizTreinamentoController extends Controller
             });
         }
 
-        // $matriz_treinamentos = $matriz_treinamento->with('cargos')->get();
-        // $matriz_treinamentos = MatrizTreinamento::with('cargos.cargo')->paginate(20);
         $matriz_treinamentos = $query->with('cargos')->paginate(20);
         $setores = $setor->all();
         $cargos = $cargo->all();
@@ -124,7 +122,6 @@ class MatrizTreinamentoController extends Controller
             'm_treinamento_descricao' => 'required|string|max:255',
             'm_treinamento_tempo' => 'required|string|max:8', // Ajuste para atender ao seu formato de entrada de tempo
             'm_treinamento_setor_responsavel_id' => 'required|exists:setores,id',
-            // Adicione outras regras de validação conforme necessário para seus outros campos
         ]);
 
         $matrizTreinamento->update([
@@ -145,11 +142,7 @@ class MatrizTreinamentoController extends Controller
             $matrizTreinamento->cargos()->create(['m_cargo_id' => $cargoId]);
         }
 
-        // Atualize os campos da matriz de treinamento com os dados recebidos do formulário
-        // $matrizTreinamento->update($request->all());
-
         // Redirecione de volta à página de detalhes da matriz de treinamento atualizada
-        // return redirect()->route('matriz_treinamentos.show', $matrizTreinamento->id)->with('success', 'Matriz de treinamento atualizada com sucesso.');
         return redirect()->route('matriz_treinamentos.index')->with('mensagem', 'Matriz de treinamento atualizada com sucesso.');
     }
 

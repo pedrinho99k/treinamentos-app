@@ -14,20 +14,24 @@
                 <span class="text">{{ __('Add New') }}</span>
             </button>
         </div>
-        <div class="sub-header">
-            <i class='bx bx-group'></i>
-            <h3>{{ __('Registered Collaborators') }}</h3>
-        </div>
-        <div class="sub-header">
+        <form class="sub-header" id="search-form" action="{{ route('colaboradores.index') }}">
             <div class="clearable-input">
-                <input class="form-input filtro-nome-colaboradores" type="text" placeholder="Filtrar por nome">
+                <input id="filtro_nome" name="nome" value="{{ request('nome') }}" class="form-input search-input" type="text" placeholder="Filtrar por nome">
+                <span class="clear-icon">&#10006;</span>
+            </div>
+            <div class="clearable-input">
+                <input id="setor" name="setor" value="{{ request('setor') }}" class="form-input search-input" type="text" placeholder="Filtrar por setor">
+                <span class="clear-icon">&#10006;</span>
+            </div>
+            <div class="clearable-input">
+                <input id="cargo" name="cargo" value="{{ request('cargo') }}" class="form-input search-input" type="text" placeholder="Filtrar por cargo">
                 <span class="clear-icon">&#10006;</span>
             </div>
             <button class="button button-transparent botao-filtrar-colaboradores">
                 <i class='bx bx-search'></i>
                 <span class="text">{{ __('Search') }}</span>
             </button>
-        </div>
+        </form>
     </div>
     <table class="tabela-registros-colaboradores">
         <thead>
@@ -77,12 +81,16 @@
             </tr>
         </tbody>
     </table>
+    <!-- Links de Paginação -->
+    <div>
+        {{ $colaboradores->appends(request()->input())->links() }}
+    </div>
 </div>
 <script>
     $(document).ready(function() {
         // Função de pesquisa
         function realizarPesquisa() {
-            var filtro = $(".filtro-nome-colaboradores").val().toLowerCase();
+            var filtro = $(".search-input").val().toLowerCase();
 
             // Oculta a linha de "Nenhum registro encontrado" por padrão
             $(".sem-registros-colaboradores").hide();
@@ -126,20 +134,17 @@
         $(".clear-icon").hide();
         $(".clear-icon").click(function() {
 
-            $(".filtro-nome-colaboradores").val("");
+            $(this).prev("input").val("");
             $(this).hide();
             $(".botao-filtrar-colaboradores").trigger('click');
         });
 
         // Mostra ou esconde o ícone de limpar com base no conteúdo do campo
-        $(".filtro-nome-colaboradores").on("input", function() {
+        $(".search-input").on("input", function() {
 
             var inputValue = $(this).val();
-            if (inputValue.length > 0) {
-                $(".clear-icon").show();
-            } else {
-                $(".clear-icon").hide();
-            }
+
+            $(this).next(".clear-icon").toggle(inputValue.length > 0);
         });
 
 
@@ -181,5 +186,16 @@
             var order = $(this).hasClass("asc") ? "desc" : "asc";
             realizarOrdenacao(colIndex, order);
         });
+
+        // Função de pesquisar com Enter
+        var searchInputs = document.querySelectorAll('.search-input');
+
+        searchInputs.forEach(function(input) {
+            input.addEventListener('keypress', function(event) {
+                if (event.key === 'Enter') {
+                    document.getElementById('search-form').submit();
+                }
+            })
+        })
     });
 </script>

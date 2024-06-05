@@ -45,7 +45,7 @@
                                 <button type="submit" class="button button-transparent hover-danger"><i
                                     class='bx bx-x'></i><span class="text">{{ __('Disable') }}</span></button>
                             @else
-                                <button type="submit" class="button button-traansparent hover-danger"><i
+                                <button type="submit" class="button button-transparent"><i
                                     class="bx bx-check"></i><span class="text">{{ __('Activate')}}</span></button>
                             @endif
                         </form>

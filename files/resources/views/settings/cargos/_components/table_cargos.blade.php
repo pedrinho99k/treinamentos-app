@@ -15,8 +15,8 @@
             </button>
         </div>
         <div class="sub-header">
-            <h3>{{ __('Registered Positions') }}</h3>
             <i class='bx bxs-user-badge'></i>
+            <h3>{{ __('Registered Positions') }}</h3>
         </div>
     </div>
     <table>
@@ -45,7 +45,7 @@
                                 <button type="submit" class="button button-transparent hover-danger"><i
                                     class='bx bx-x'></i><span class="text">{{ __('Disable') }}</span></button>
                             @else
-                                <button type="submit" class="button button-transparent hover-danger"><i
+                                <button type="submit" class="button button-transparent"><i
                                     class="bx bx-check"></i><span class="text">{{ __('Activate') }}</span></button>
                             @endif
                         </form>

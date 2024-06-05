@@ -13,14 +13,35 @@ class ColaboradorController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Colaborador $colaborador, Cargo $cargo, Setor $setor)
+    public function index(Colaborador $colaborador, Cargo $cargo, Setor $setor, Request $request)
     {
-        $colaboradores = $colaborador::with(['cargo', 'setor'])->get();
+        $query = Colaborador::query();
+
+        if ($request->filled('nome')) {
+            $query->where('colaborador_nome', 'like', '%' . $request->nome . '%');
+        }
+
+        if ($request->filled('setor')) {
+            $setorDescricao = $request->setor;
+            $query->whereHas('setor', function ($q) use ($setorDescricao) {
+                $q->where('setor_descricao', 'like', '%' . $setorDescricao . '%');
+            });
+        }
+
+        if ($request->filled('cargo')) {
+            $cargoDescricao = $request->cargo;
+            $query->whereHas('cargo', function ($q) use ($cargoDescricao) {
+                $q->where('cargo_descricao', 'like', '%' . $cargoDescricao . '%');
+            });
+        }
+
+        $colaboradores = $query->with(['cargo', 'setor'])->paginate(30);
         $cargos = $cargo->all();
         $setores = $setor->all();
 
-        return view('colaboradores/colaboradores', compact('colaboradores', 'cargos', 'setores'));
+        return view('colaboradores.colaboradores', compact('colaboradores', 'cargos', 'setores'));
     }
+
 
 
     /**
@@ -91,11 +112,11 @@ class ColaboradorController extends Controller
         switch ($colaborador_ativo) {
             case 'SIM':
                 $colaborador->update(['colaborador_ativo' => 'NÃO']);
-                return redirect()->route('colaboradores.index')->with('mensagem', 'Colaborador Inativado com sucesso!');
+                return redirect()->route('colaboradores.index')->with('mensagem', 'Colaborador desativado com sucesso!');
                 break;
             case 'NÃO':
                 $colaborador->update(['colaborador_ativo' => 'SIM']);
-                return redirect()->route('colaboradores.index')->with('mensagem', 'Colaborador AtivaDO com sucesso!');
+                return redirect()->route('colaboradores.index')->with('mensagem', 'Colaborador ativado com sucesso!');
                 break;
         }
     }

@@ -113,9 +113,6 @@
             </tr>
         </tbody>
     </table>
-    {{-- <div>
-        {{ $matriz_treinamentos->links() }}
-    </div> --}}
     <div>
         {{ $matriz_treinamentos->appends(request()->input())->links() }}
     </div>
@@ -163,23 +160,6 @@
 
             console.log(filtro);
 
-            switch (idFiltro) {
-                case "filtro_id":
-                    coluna = "td:nth-child(1)"; // Atribua o valor da coluna diretamente como uma string
-                    break;
-                case "filtro_descricao":
-                    coluna = "td:nth-child(2)";
-                    break;
-                case "filtro_setor":
-                    coluna = "td:nth-child(6)";
-                    break;
-                case "filtro_cargo":
-                    coluna = "td:nth-child(7)";
-                    break;
-                default:
-                    console.log("filtro nao especificado");
-            }
-
             $(".sem-registros-matriz-treinamentos").hide();
 
             var registrosEncontrados = false;
@@ -207,11 +187,6 @@
 
             $(".sem-registro-matriz-treinamentos").toggle(!registrosEncontrados);
         }
-
-        // Pesquisa
-        $(".botao-filtrar-matriz-treinamentos").click(function() {
-            realizarPesquisa();
-        });
 
         // Limpa o valor do campo quando o ícone X é clicado
         $(".clear-icon").hide();
@@ -273,7 +248,6 @@
 
         // Função de pesquisar com Enter
         var searchInputs = document.querySelectorAll('.search-input');
-
         searchInputs.forEach(function(input) {
             input.addEventListener('keypress', function(event) {
                 if (event.key === 'Enter') {
