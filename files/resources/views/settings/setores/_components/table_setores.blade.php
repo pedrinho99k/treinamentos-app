@@ -41,8 +41,13 @@
                         <form action="{{ route('setores.destroy', $setor->id) }}" method="POST">
                             @csrf
                             @method('delete')
-                            <button type="submit" class="button button-transparent hover-danger"><i
-                                class='bx bx-x'></i><span class="text">{{ __('Disable') }}</span></button>
+                            @if($setor->setor_ativo === 'SIM')
+                                <button type="submit" class="button button-transparent hover-danger"><i
+                                    class='bx bx-x'></i><span class="text">{{ __('Disable') }}</span></button>
+                            @else
+                                <button type="submit" class="button button-traansparent hover-danger"><i
+                                    class="bx bx-check"></i><span class="text">{{ __('Activate')}}</span></button>
+                            @endif
                         </form>
                     </td>
                 </tr>

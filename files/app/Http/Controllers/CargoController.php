@@ -68,12 +68,35 @@ class CargoController extends Controller
      * Função que deleta registro no banco
      *
      */
+    // public function destroy(string|int $id)
+    // {
+    //     if (!$cargo = Cargo::find($id)) {
+    //         return back()->with('mensagem', 'Error');
+    //     }
+    //     $cargo->delete();
+    //     return redirect()->route('cargos.index')->with('mensagem', 'Cargo excluido com sucesso!');
+    // }
+
+    /**
+     *
+     * Função que desativa o registro no banco
+     *
+     */
     public function destroy(string|int $id)
     {
         if (!$cargo = Cargo::find($id)) {
             return back()->with('mensagem', 'Error');
         }
-        $cargo->delete();
-        return redirect()->route('cargos.index')->with('mensagem', 'Cargo excluido com sucesso!');
+
+        switch($cargo->cargo_ativo) {
+            case 'SIM':
+                $cargo->update(['cargo_ativo' => 'NÃO']);
+                return redirect()->route('cargos.index')->with('mensagem', 'Cargo inativado com sucesso!');
+                break;
+            case 'NÃO':
+                $cargo->update(['cargo_ativo' => 'SIM']);
+                return redirect()->route('cargos.index')->with('mensagem', 'Cargo ativado com sucesso!');
+                break;
+        }
     }
 }

@@ -66,12 +66,35 @@ class SetorController extends Controller
      * Função que deleta registro no banco
      *
      */
+    // public function destroy(string|int $id)
+    // {
+    //     if (!$setor = Setor::find($id)) {
+    //         return back()->with('mensagem', 'Error');
+    //     }
+    //     $setor->delete();
+    //     return redirect()->route('setores.index')->with('mensagem', 'Setor excluido com sucesso!');
+    // }
+
+    /**
+     *
+     * Função que desabilita o registro no banco
+     *
+     */
     public function destroy(string|int $id)
     {
         if (!$setor = Setor::find($id)) {
             return back()->with('mensagem', 'Error');
         }
-        $setor->delete();
-        return redirect()->route('setores.index')->with('mensagem', 'Setor excluido com sucesso!');
+
+        switch($setor->setor_ativo) {
+            case 'SIM':
+                $setor->update(['setor_ativo' => 'NÃO']);
+                return redirect()->route('setores.index')->with('mensagem', 'Setor desativado com sucesso!');
+                break;
+            case 'NÃO':
+                $setor->update(['setor_ativo' => 'SIM']);
+                return redirect()->route('setores.index')->with('mensagem', 'Setor ativado com sucesso!');
+                break;
+        }
     }
 }
