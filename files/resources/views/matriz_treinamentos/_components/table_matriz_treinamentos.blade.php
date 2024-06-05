@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="{{ asset('css/custom_style.css') }}">
 <div class="orders orders-grande">
     @if (session('mensagem'))
         <h6 class="msg-error">{{ session('mensagem') }}</h6>
