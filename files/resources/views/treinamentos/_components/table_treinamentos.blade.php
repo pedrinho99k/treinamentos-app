@@ -183,20 +183,19 @@
                         <div>
                             <table class="bg-white w-100" style="font-size: 10px !important">
                                 <thead>
+                                    <div style="display: flex; align-items: center;">
+                                        <svg width="50" height="50">
+                                            <image href="{{ asset('img/LOGO HR.png') }}" width="50" height="50"/>
+                                        </svg>
+                                        <span style="flex-grow: 1; text-align: center;">LISTA DE TREINAMENTO</span>
+                                    </div>
                                     <tr>
-                                        <th colspan="4" style="border: none;">
-                                            <svg class="text-center" width="50" height="50">
-                                                <image href="{{ asset('img/LOGO HR.png') }}" width="50" height="50"/>
-                                            </svg>
-                                        </th>
+                                        <th class="col-12 border border-dark text-center" colspan="4">${treinamento_descricao}</th>
                                     </tr>
                                     <tr>
-                                        <th class="p-2 col-12 border border-dark text-center" colspan="4">${treinamento_descricao}</th>
-                                    </tr>
-                                    <tr>
-                                        <th class="p-1 border border-dark text-left" colspan="2">PROFESSOR: ${treinamento_professor}</th>
-                                        <th class="p-1 border border-dark text-left">DATA: ${treinamento_data}</th>
-                                        <th class="p-1 border border-dark text-left">DURAÇÃO: ${treinamento_carga_horaria}</th>
+                                        <th class="border border-dark text-left">PROFESSOR: ${treinamento_professor}</th>
+                                        <th class="border border-dark text-left">DATA: ${treinamento_data}</th>
+                                        <th class="border border-dark text-left" colspan="2">DURAÇÃO: ${treinamento_carga_horaria}</th>
                                     </tr>
                                     <tr>
                                         <th class="p-1 border border-dark text-left" colspan="4">OBSERVAÇÕES: ${treinamento_observacoes}</th>
@@ -232,7 +231,7 @@
             `);
 
             janelaImprimir.print();
-            janelaImprimir.close();
+            // janelaImprimir.close();
         });
     }
 
