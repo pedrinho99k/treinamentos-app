@@ -41,8 +41,9 @@ class MatrizTreinamentoController extends Controller
         }
 
         $matriz_treinamentos = $query->with('cargos')->paginate(20);
-        $setores = $setor->all();
-        $cargos = $cargo->all();
+        // $setores = $setor->all();
+        $setores = $setor->where('setor_ativo', 'SIM')->get();
+        $cargos = $cargo->where('cargo_ativo', 'SIM')->get();
         return view('matriz_treinamentos/matriz_treinamentos', compact('matriz_treinamentos', 'setores', 'cargos'));
     }
 
